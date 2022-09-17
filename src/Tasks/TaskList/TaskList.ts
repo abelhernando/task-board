@@ -1,3 +1,4 @@
+import { isNonEmptyString } from "@/common/utils";
 import { v4 as uuidv4 } from "uuid";
 import type { Task } from "../Task/Task";
 
@@ -13,6 +14,12 @@ export class TaskList {
 
   /** tasks that are visible */
   private visibleTasks: Task[] = [];
+
+  /** current filter of the state of the tasks */
+  private currentStateFilter: boolean | null = null;
+
+  /** current filter of the content of the tasks */
+  private currentContentFilter: string = "";
 
   constructor(title: string) {
     this._id = uuidv4();
@@ -42,6 +49,8 @@ export class TaskList {
     this.tasks.set(task.id, task);
 
     this.visibleTasks = [...this.tasks.values()];
+
+    this.applyFiltersIfThereAreSetted();
   }
 
   public removeTask(id: string): void {
@@ -59,11 +68,16 @@ export class TaskList {
   }
 
   public resetFilter(): void {
+    this.currentStateFilter = null;
+    this.currentContentFilter = "";
+
     this.visibleTasks = [...this.tasks.values()];
   }
 
   public applyFilter(filter: boolean | string): void {
     if (typeof filter === "boolean") {
+      this.currentStateFilter = filter;
+
       const tasks = this.getTaskByState(filter);
 
       this.visibleTasks = [...tasks.values()];
@@ -71,6 +85,8 @@ export class TaskList {
     }
 
     if (typeof filter === "string") {
+      this.currentContentFilter = filter;
+
       const tasks = this.getTaskByContent(filter);
 
       this.visibleTasks = [...tasks.values()];
@@ -101,5 +117,15 @@ export class TaskList {
     });
 
     return filteredTasks;
+  }
+
+  private applyFiltersIfThereAreSetted(): void {
+    if (this.currentStateFilter) {
+      this.applyFilter(this.currentStateFilter);
+    }
+
+    if (isNonEmptyString(this.currentContentFilter)) {
+      this.applyFilter(this.currentContentFilter);
+    }
   }
 }

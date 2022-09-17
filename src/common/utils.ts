@@ -26,6 +26,11 @@ export function isString(value: unknown) {
  * @param value The value to test
  * @returns  `true` if it is a non empty string
  */
-export function isNonEmptyString(value: string) {
-  return !isNil(value) && isString(value) && value.length > 0;
+export function isNonEmptyString(value: unknown) {
+  return (
+    !isNil(value) &&
+    isString(value) &&
+    typeof value === "string" &&
+    value.length > 0
+  );
 }
