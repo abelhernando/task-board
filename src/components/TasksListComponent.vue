@@ -15,7 +15,7 @@
         :key="index"
         :class="cn.taskContainer"
       >
-        <TaskComponent :task="task" />
+        <TaskComponent :task="task" @task:delete="handlers.removeTask" />
       </div>
     </div>
     <button type="button" @click="addTask">+</button>
@@ -69,6 +69,9 @@ export default defineComponent({
         props.list.setTitle(target.value);
 
         isEditing.value = false;
+      },
+      removeTask: function (taskId: string) {
+        props.list.removeTask(taskId);
       },
     };
 

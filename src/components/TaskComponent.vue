@@ -20,6 +20,8 @@
     >
       {{ task.text }}
     </label>
+
+    <button @click="$emit('task:delete', task.id)">delete</button>
   </div>
 </template>
 <script lang="ts">
@@ -28,6 +30,7 @@ import { defineComponent, ref } from "vue";
 
 export default defineComponent({
   name: "TaskComponent",
+  emits: ["task:delete"],
   props: {
     task: {
       type: Task,
