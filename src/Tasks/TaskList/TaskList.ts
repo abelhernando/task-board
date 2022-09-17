@@ -63,8 +63,8 @@ export class TaskList {
     this.tasks.has(id);
   }
 
-  public hasAnyTask(): boolean {
-    return this.tasks.size > 0;
+  public hasAnyVisibleTask(): boolean {
+    return this.visibleTasks.length > 0;
   }
 
   public resetFilter(): void {

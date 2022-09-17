@@ -6,21 +6,18 @@
       :value="task.isDone"
       @change="task.setIsDone($event.target.checked)"
     />
+    <dir v-if="isEditing">
+      <input :value="task.text" @keyup.enter="handlers.editTask" />
+      <button @click="$emit('task:delete', task.id)">x</button>
+    </dir>
 
-    <input
-      v-if="isEditing"
-      :value="task.text"
-      @keyup.enter="handlers.editTask"
-    />
     <label
       v-else
       :class="{ active: task.isDone }"
-      @dblclick="handlers.setEditable"
+      @click="handlers.setEditable"
     >
       {{ task.text }}
     </label>
-
-    <button @click="$emit('task:delete', task.id)">delete</button>
   </div>
 </template>
 <script lang="ts">

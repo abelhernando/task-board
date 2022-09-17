@@ -5,11 +5,11 @@
       :value="list.title"
       @keyup.enter="handlers.editTitle"
     />
-    <h1 v-else :class="cn.title" @dblclick="handlers.setEditable">
+    <h1 v-else :class="cn.title" @click="handlers.setEditable">
       {{ list.title }}
     </h1>
 
-    <div v-if="list.hasAnyTask()">
+    <div v-if="list.hasAnyVisibleTask()">
       <div
         v-for="(task, index) in list.getTasks()"
         :key="index"
