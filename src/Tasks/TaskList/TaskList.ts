@@ -2,11 +2,17 @@ import { v4 as uuidv4 } from "uuid";
 import type { Task } from "../Task/Task";
 
 export class TaskList {
+  /** id of the list */
   private readonly _id: string;
 
+  /** title of the list */
   public title: string;
 
+  /** all the tasks stored in the list */
   private tasks: Map<string, Task> = new Map();
+
+  /** tasks that are visible */
+  private visibleTasks: Task[] = [];
 
   constructor(title: string) {
     this._id = uuidv4();
@@ -29,15 +35,19 @@ export class TaskList {
   }
 
   public getTasks(): Task[] {
-    return [...this.tasks.values()];
+    return [...this.visibleTasks];
   }
 
   public addTask(task: Task): void {
     this.tasks.set(task.id, task);
+
+    this.visibleTasks = [...this.tasks.values()];
   }
 
   public removeTask(id: string): void {
     this.tasks.delete(id);
+
+    this.visibleTasks = [...this.tasks.values()];
   }
 
   public hasTask(id: string): void {
@@ -46,5 +56,50 @@ export class TaskList {
 
   public hasAnyTask(): boolean {
     return this.tasks.size > 0;
+  }
+
+  public resetFilter(): void {
+    this.visibleTasks = [...this.tasks.values()];
+  }
+
+  public applyFilter(filter: boolean | string): void {
+    if (typeof filter === "boolean") {
+      const tasks = this.getTaskByState(filter);
+
+      this.visibleTasks = [...tasks.values()];
+      return;
+    }
+
+    if (typeof filter === "string") {
+      const tasks = this.getTaskByContent(filter);
+
+      this.visibleTasks = [...tasks.values()];
+      return;
+    }
+
+    this.resetFilter();
+  }
+
+  public getTaskByState(value: boolean): Task[] {
+    const allTasks = [...this.tasks.values()];
+
+    const filteredTasks = allTasks.filter(function (task) {
+      return task.isDone === value;
+    });
+
+    return filteredTasks;
+  }
+
+  public getTaskByContent(value: string): Task[] {
+    const allTasks = [...this.tasks.values()];
+
+    const filteredTasks = allTasks.filter(function (task) {
+      return task.text
+        .trim()
+        .toLowerCase()
+        .includes(value.trim().toLowerCase());
+    });
+
+    return filteredTasks;
   }
 }

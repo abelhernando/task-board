@@ -75,7 +75,13 @@ export default defineComponent({
       },
     };
 
-    return { cn, addTask, taskName, handlers, isEditing };
+    return {
+      cn,
+      addTask,
+      taskName,
+      handlers,
+      isEditing,
+    };
   },
   head: {},
 });

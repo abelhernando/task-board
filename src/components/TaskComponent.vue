@@ -2,10 +2,9 @@
   <div :class="cn.root">
     <input
       type="checkbox"
-      :id="`task-element-${task.id}`"
-      :name="task.id"
       :checked="task.isDone"
       :value="task.isDone"
+      @change="task.setIsDone($event.target.checked)"
     />
 
     <input

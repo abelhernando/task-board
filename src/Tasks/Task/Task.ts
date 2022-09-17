@@ -25,6 +25,10 @@ export class Task {
     this.text = value;
   }
 
+  public setIsDone(isDone: boolean): void {
+    this.isDone = isDone;
+  }
+
   public get id(): string {
     return this._id;
   }

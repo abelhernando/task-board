@@ -1,6 +1,9 @@
 <template>
   <div :class="cn.root">
     <div>
+      <!-- FILTERS -->
+      <FilterComponent :lists="lists" />
+
       <!-- INITIAL INPUT -->
       <input
         type="text"
@@ -23,10 +26,11 @@
 import { defineComponent, ref } from "vue";
 import { TaskList } from "../Tasks";
 import TasksListComponent from "../components/TasksListComponent.vue";
+import FilterComponent from "../components/FilterComponent.vue";
 
 export default defineComponent({
   name: "MainPage",
-  components: { TasksListComponent },
+  components: { TasksListComponent, FilterComponent },
   setup() {
     const cn = getClassNames();
 
