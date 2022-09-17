@@ -1,0 +1,25 @@
+import { v4 as uuidv4 } from "uuid";
+
+export class Task {
+  private readonly _id: string;
+
+  public text: string;
+
+  public isDone: boolean;
+
+  constructor(text: string) {
+    this._id = uuidv4();
+
+    this.text = text;
+
+    this.isDone = false;
+  }
+
+  public get id(): string {
+    return this._id;
+  }
+
+  public toggle(): void {
+    this.isDone = !this.isDone;
+  }
+}
