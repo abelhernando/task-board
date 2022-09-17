@@ -2,14 +2,19 @@
   <div :class="cn.root">
     <div>
       <!-- INITIAL INPUT -->
-      <input type="text" v-model="listName" @keyup.enter="createTaskList" />
+      <input
+        type="text"
+        placeholder="Name your list"
+        v-model="listName"
+        @keyup.enter="createTaskList"
+      />
       <button type="submit" @click="createTaskList">OK</button>
     </div>
 
     <!-- TASKS LISTS  -->
     <div>
       <div v-for="(list, index) in lists" :key="index">
-        {{ list.title }}
+        <TasksListComponent :list="list" />
       </div>
     </div>
   </div>
@@ -17,10 +22,11 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { TaskList } from "../Tasks";
+import TasksListComponent from "../components/TasksListComponent.vue";
 
 export default defineComponent({
   name: "MainPage",
-  components: {},
+  components: { TasksListComponent },
   setup() {
     const cn = getClassNames();
 

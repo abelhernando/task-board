@@ -24,23 +24,23 @@ export class TaskList {
     return this._id;
   }
 
-  public getItems(): Task[] {
+  public getTasks(): Task[] {
     return [...this.tasks.values()];
   }
 
-  public addItem(task: Task): void {
+  public addTask(task: Task): void {
     this.tasks.set(task.id, task);
   }
 
-  public removeItem(id: string): void {
+  public removeTask(id: string): void {
     this.tasks.delete(id);
   }
 
-  public hasItem(id: string): void {
+  public hasTask(id: string): void {
     this.tasks.has(id);
   }
 
-  public hasAnyItem(): boolean {
+  public hasAnyTask(): boolean {
     return this.tasks.size > 0;
   }
 }

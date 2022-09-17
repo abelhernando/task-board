@@ -15,6 +15,12 @@ export class Task {
     this.isDone = false;
   }
 
+  public static create(text: string): Task {
+    const task = new Task(text);
+
+    return task;
+  }
+
   public get id(): string {
     return this._id;
   }
