@@ -21,6 +21,10 @@ export class Task {
     return task;
   }
 
+  public setText(value: string): void {
+    this.text = value;
+  }
+
   public get id(): string {
     return this._id;
   }

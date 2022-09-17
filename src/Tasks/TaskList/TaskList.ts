@@ -24,6 +24,10 @@ export class TaskList {
     return this._id;
   }
 
+  public setTitle(value: string): void {
+    this.title = value;
+  }
+
   public getTasks(): Task[] {
     return [...this.tasks.values()];
   }

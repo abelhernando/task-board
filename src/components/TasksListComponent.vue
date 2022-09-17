@@ -1,6 +1,13 @@
 <template>
   <div :class="cn.root">
-    <h1 :class="cn.title">{{ list.title }}</h1>
+    <input
+      v-if="isEditing"
+      :value="list.title"
+      @keyup.enter="handlers.editTitle"
+    />
+    <h1 v-else :class="cn.title" @dblclick="handlers.setEditable">
+      {{ list.title }}
+    </h1>
 
     <div v-if="list.hasAnyTask()">
       <div
@@ -16,7 +23,7 @@
       type="text"
       placeholder="Add a task"
       v-model="taskName"
-      @keyup.enter.enter="addTask"
+      @keyup.enter="addTask"
     />
   </div>
 </template>
@@ -50,7 +57,22 @@ export default defineComponent({
       taskName.value = "";
     }
 
-    return { cn, addTask, taskName };
+    const isEditing = ref(false);
+
+    const handlers = {
+      setEditable: function () {
+        isEditing.value = true;
+      },
+      editTitle: function (event: Event): void {
+        const target = event.target as HTMLInputElement;
+
+        props.list.setTitle(target.value);
+
+        isEditing.value = false;
+      },
+    };
+
+    return { cn, addTask, taskName, handlers, isEditing };
   },
   head: {},
 });
