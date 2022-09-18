@@ -1,10 +1,9 @@
 <template>
   <div :class="cn.root">
-    <input
-      v-if="isEditing"
-      :value="list.title"
-      @keyup.enter="handlers.editTitle"
-    />
+    <div v-if="isEditing">
+      <input :value="list.title" @keyup.enter="handlers.editTitle" />
+      <button @click="handlers.deleteList">x</button>
+    </div>
     <h1 v-else :class="cn.title" @click="handlers.setEditable">
       {{ list.title }}
     </h1>
@@ -35,6 +34,7 @@ import { isNonEmptyString } from "../common/utils";
 
 export default defineComponent({
   name: "TasksListComponent",
+  emits: ["list:delete"],
   components: { TaskComponent },
   props: {
     list: {
@@ -42,7 +42,7 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const cn = getClassNames();
 
     const taskName = ref("");
@@ -72,6 +72,10 @@ export default defineComponent({
       },
       removeTask: function (taskId: string) {
         props.list.removeTask(taskId);
+      },
+      deleteList: function () {
+        isEditing.value = false;
+        emit("list:delete", props.list.id);
       },
     };
 

@@ -17,7 +17,7 @@
     <!-- TASKS LISTS  -->
     <div>
       <div v-for="(list, index) in lists" :key="index">
-        <TasksListComponent :list="list" />
+        <TasksListComponent :list="list" @list:delete="deleteList" />
       </div>
     </div>
   </div>
@@ -46,10 +46,16 @@ export default defineComponent({
       listName.value = "";
     }
 
+    function deleteList(listId: string) {
+      const index = lists.value.findIndex((list) => list.id === listId);
+      lists.value.splice(index, 1);
+    }
+
     return {
       cn,
       lists,
       listName,
+      deleteList,
       createTaskList,
     };
   },
