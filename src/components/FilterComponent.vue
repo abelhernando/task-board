@@ -8,17 +8,27 @@
     />
 
     <form @change="filterAction">
-      <input type="radio" id="filter-all" v-model="filters.state" value="2" />
+      <input
+        type="radio"
+        id="filter-all"
+        v-model="filters.state"
+        :value="FilterStates.ALL"
+      />
       <label for="filter-all">All</label>
 
-      <input type="radio" id="filter-done" v-model="filters.state" value="1" />
+      <input
+        type="radio"
+        id="filter-done"
+        v-model="filters.state"
+        :value="FilterStates.DONE"
+      />
       <label for="filter-done">Done</label>
 
       <input
         type="radio"
         id="filter-undone"
         v-model="filters.state"
-        value="0"
+        :value="FilterStates.UNDONE"
       />
       <label for="filter-undone">Undone</label>
     </form>
@@ -27,7 +37,7 @@
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
 import type { TaskList } from "../Tasks";
-import { isNonEmptyString } from "../common/utils";
+import { isNonEmptyString, FilterStates } from "../common";
 
 export default defineComponent({
   name: "FilterComponent",
@@ -42,23 +52,23 @@ export default defineComponent({
 
     const filters = reactive({
       content: "",
-      state: "2",
+      state: FilterStates.ALL,
     });
 
     function filterAction(): void {
-      if (filters.state === "0") {
+      if (filters.state === FilterStates.UNDONE) {
         // undone filter
         props.lists.forEach((list) => {
           list.applyFilter(false);
         });
       }
-      if (filters.state === "1") {
+      if (filters.state === FilterStates.DONE) {
         // done filter
         props.lists.forEach((list) => {
           list.applyFilter(true);
         });
       }
-      if (filters.state === "2") {
+      if (filters.state === FilterStates.ALL) {
         // no filter
         props.lists.forEach((list) => {
           list.resetFilter();
@@ -76,6 +86,7 @@ export default defineComponent({
     return {
       cn,
       filterAction,
+      FilterStates,
       filters,
     };
   },
