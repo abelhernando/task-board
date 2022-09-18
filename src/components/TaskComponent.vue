@@ -7,14 +7,21 @@
       @change="task.setIsDone($event.target.checked)"
     />
 
-    <dir v-if="isEditing">
-      <input :value="task.text" @keyup.enter="handlers.editTask" />
-      <button @click="$emit('task:delete', task.id)">x</button>
-    </dir>
+    <div v-if="isEditing" :class="cn.taskInfo">
+      <input
+        ref="textInput"
+        :value="task.text"
+        @keyup.enter="handlers.editTask"
+      />
+      <!-- @blur="isEditing = false" -->
+      <button :class="cn.deleteBtn" @click="$emit('task:delete', task.id)">
+        <img src="../assets/delete.svg" alt="" />
+      </button>
+    </div>
 
     <label
       v-else
-      :class="{ active: task.isDone }"
+      :class="[cn.taskInfo, { active: task.isDone }]"
       @click="handlers.setEditable"
     >
       {{ task.text }}
@@ -39,9 +46,18 @@ export default defineComponent({
 
     const isEditing = ref(false);
 
+    const textInput = ref<HTMLInputElement | null>(null);
+
     const handlers = {
       setEditable: function () {
         isEditing.value = true;
+
+        setTimeout(() => {
+          if (!textInput.value) {
+            return;
+          }
+          textInput.value.focus();
+        }, 0);
       },
       editTask: function (event: Event): void {
         const target = event.target as HTMLInputElement;
@@ -55,6 +71,7 @@ export default defineComponent({
     return {
       cn,
       handlers,
+      textInput,
       isEditing,
     };
   },
@@ -65,7 +82,43 @@ function getClassNames(): Object {
   const root = "task-component";
   return {
     root,
+    deleteBtn: `${root}__delete--button`,
+    taskInfo: `${root}__task-info`,
   };
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.task-component {
+  border-bottom: 1px solid black;
+
+  display: flex;
+  width: 100%;
+
+  input[type="checkbox"] {
+    width: 25px;
+    height: 50px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  &__delete--button {
+    border: none;
+    outline: none;
+    background-color: transparent;
+  }
+
+  &__task-info {
+    width: 100%;
+    align-self: center;
+    cursor: pointer;
+
+    input {
+      height: 30px;
+    }
+  }
+
+  label.active {
+    text-decoration: line-through;
+  }
+}
+</style>

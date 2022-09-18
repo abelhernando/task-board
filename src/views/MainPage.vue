@@ -27,6 +27,7 @@ import { defineComponent, ref } from "vue";
 import { TaskList } from "../Tasks";
 import TasksListComponent from "../components/TasksListComponent.vue";
 import FilterComponent from "../components/FilterComponent.vue";
+import { isNonEmptyString } from "@/common";
 
 export default defineComponent({
   name: "MainPage",
@@ -39,6 +40,10 @@ export default defineComponent({
     const lists = ref<TaskList[]>([]);
 
     function createTaskList(): void {
+      if (!isNonEmptyString(listName.value)) {
+        return;
+      }
+
       const taskList = TaskList.create(listName.value);
 
       lists.value = [...lists.value, taskList];

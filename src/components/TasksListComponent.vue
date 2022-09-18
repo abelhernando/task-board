@@ -1,8 +1,15 @@
 <template>
   <div :class="cn.root">
-    <div v-if="isEditing">
-      <input :value="list.title" @keyup.enter="handlers.editTitle" />
-      <button @click="handlers.deleteList">x</button>
+    <div v-if="isEditing" :class="cn.listInfo">
+      <input
+        ref="titleInput"
+        :value="list.title"
+        @keyup.enter="handlers.editTitle"
+      />
+      <!-- @blur="isEditing = false" -->
+      <button :class="cn.deleteBtn" @click="handlers.deleteList">
+        <img src="../assets/delete.svg" alt="" />
+      </button>
     </div>
     <h1 v-else :class="cn.title" @click="handlers.setEditable">
       {{ list.title }}
@@ -17,13 +24,17 @@
         <TaskComponent :task="task" @task:delete="handlers.removeTask" />
       </div>
     </div>
-    <button type="button" @click="addTask">+</button>
-    <input
-      type="text"
-      placeholder="Add a task"
-      v-model="taskName"
-      @keyup.enter="addTask"
-    />
+    <div :class="cn.bottom">
+      <button :class="cn.addTaskBtn" type="button" @click="addTask">
+        <img src="../assets/add.svg" alt="" />
+      </button>
+      <input
+        type="text"
+        placeholder="Add a task"
+        v-model="taskName"
+        @keyup.enter="addTask"
+      />
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -59,9 +70,18 @@ export default defineComponent({
 
     const isEditing = ref(false);
 
+    const titleInput = ref<HTMLInputElement | null>(null);
+
     const handlers = {
       setEditable: function () {
         isEditing.value = true;
+
+        setTimeout(() => {
+          if (!titleInput.value) {
+            return;
+          }
+          titleInput.value.focus();
+        }, 0);
       },
       editTitle: function (event: Event): void {
         const target = event.target as HTMLInputElement;
@@ -74,6 +94,10 @@ export default defineComponent({
         props.list.removeTask(taskId);
       },
       deleteList: function () {
+        if (props.list.hasAnyTask()) {
+          return;
+        }
+
         isEditing.value = false;
         emit("list:delete", props.list.id);
       },
@@ -85,6 +109,7 @@ export default defineComponent({
       taskName,
       handlers,
       isEditing,
+      titleInput,
     };
   },
   head: {},
@@ -98,13 +123,17 @@ function getClassNames(): Object {
     taskContainer: `${root}__task-container`,
     task: `${root}__task`,
     controls: `${root}__controls`,
+    deleteBtn: `${root}__delete--button`,
+    listInfo: `${root}__list-info`,
+    addTaskBtn: `${root}__add-task--button`,
+    bottom: `${root}__bottom`,
   };
 }
 </script>
 <style lang="scss" scoped>
 .list-component {
-  width: 212px;
-  height: 266px;
+  width: 50%;
+  min-height: 266px;
   margin: 20px;
 
   background: #ffffff;
@@ -112,16 +141,42 @@ function getClassNames(): Object {
 
   box-shadow: 10px 10px 7px rgba(0, 0, 0, 0.3);
 
+  &__list-info {
+    input {
+      text-align-last: center;
+
+      font-size: 2em;
+      font-weight: bold;
+    }
+  }
+
+  &__delete--button {
+    border: none;
+    outline: none;
+    background-color: transparent;
+  }
+
   &__title {
+    margin: 0;
     text-align: center;
     border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+  }
+
+  &__add-task--button {
+    height: 30px;
+  }
+
+  &__bottom {
+    height: 30px;
+    align-items: center;
+
+    input {
+      height: 30px;
+    }
   }
 
   &__task-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 10px;
-
     label {
       font-size: 20px;
       word-break: break-word;
@@ -140,7 +195,7 @@ function getClassNames(): Object {
   &:hover {
     box-shadow: 0 16px 26px rgb(0 0 0 / 47%), 0 0 46px rgb(0 0 0 / 47%);
     transition: 1s;
-    transform: scale(1.25);
+    // transform: scale(1.25);
   }
 
   &__controls {
