@@ -154,6 +154,7 @@ function getClassNames(): Object {
     border: none;
     outline: none;
     background-color: transparent;
+    margin-top: 12px;
   }
 
   &__title {

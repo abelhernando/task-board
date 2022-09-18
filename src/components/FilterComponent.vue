@@ -3,7 +3,7 @@
     <input
       type="text"
       v-model="filters.content"
-      placeholder="Search..."
+      placeholder="Search a task"
       @input="filterAction"
     />
 
@@ -100,4 +100,29 @@ function getClassNames(): Object {
   };
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.filter-component {
+  background-color: #e1f1f9;
+  padding: 30px;
+
+  border-top: 3px solid #41a9da;
+  border-bottom: 3px solid #41a9da;
+
+  input[type="text"] {
+    width: 50%;
+    border-radius: 18px;
+    padding: 6px;
+  }
+
+  form {
+    margin: 20px 0;
+    display: flex;
+    width: 30%;
+    align-items: center;
+
+    input[type="radio"] {
+      height: 26px;
+    }
+  }
+}
+</style>

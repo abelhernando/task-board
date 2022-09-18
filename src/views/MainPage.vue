@@ -1,9 +1,9 @@
 <template>
   <div :class="cn.root">
-    <div>
-      <!-- FILTERS -->
-      <FilterComponent :lists="lists" />
+    <!-- FILTERS -->
+    <FilterComponent v-if="lists.length" :lists="lists" />
 
+    <div :class="cn.listControl">
       <!-- INITIAL INPUT -->
       <input
         type="text"
@@ -11,11 +11,13 @@
         v-model="listName"
         @keyup.enter="createTaskList"
       />
-      <button type="submit" @click="createTaskList">OK</button>
+      <button :class="cn.createListBtn" type="submit" @click="createTaskList">
+        <img src="../assets/ok.svg" alt="" />
+      </button>
     </div>
 
     <!-- TASKS LISTS  -->
-    <div>
+    <div :class="cn.taskList">
       <div v-for="(list, index) in lists" :key="index">
         <TasksListComponent :list="list" @list:delete="deleteList" />
       </div>
@@ -72,8 +74,32 @@ function getClassNames(): Object {
   return {
     root,
     listContainer: `${root}__list-container`,
+    listControl: `${root}__list-control`,
+    createListBtn: `${root}__create-list--button`,
+    taskList: `${root}__tasks-list`,
   };
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.main-page {
+  background-color: #e1f1f9;
+  &__list-control {
+    width: 30%;
+    margin: 1em;
+
+    input {
+      border-radius: 20px 0 0px 20px;
+      padding: 5px;
+      width: 86%;
+    }
+    img {
+      height: 35px;
+    }
+  }
+  &__tasks-list {
+  }
+  &__create-list--button {
+  }
+}
+</style>
