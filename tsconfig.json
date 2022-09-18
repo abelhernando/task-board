@@ -1,11 +1,21 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue"],
+  "exclude": ["node_modules"],
+  "include": [
+    "env.d.ts",
+    "src/**/*",
+    "src/**/*.vue",
+    "src/**/*.ts",
+    "tests/**/*",
+    "**/*.spec.ts"
+  ],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "outDir": "./out",
+    "types": ["node", "jest", "@types/jest"]
   },
 
   "references": [

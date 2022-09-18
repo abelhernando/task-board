@@ -6,6 +6,7 @@
       :value="task.isDone"
       @change="task.setIsDone($event.target.checked)"
     />
+
     <dir v-if="isEditing">
       <input :value="task.text" @keyup.enter="handlers.editTask" />
       <button @click="$emit('task:delete', task.id)">x</button>
@@ -21,7 +22,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Task } from "@/Tasks";
+import { Task } from "../Tasks";
 import { defineComponent, ref } from "vue";
 
 export default defineComponent({

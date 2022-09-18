@@ -26,8 +26,8 @@
 </template>
 <script lang="ts">
 import { defineComponent, reactive } from "vue";
-import type { TaskList } from "@/Tasks";
-import { isNonEmptyString } from "@/common/utils";
+import type { TaskList } from "../Tasks";
+import { isNonEmptyString } from "../common/utils";
 
 export default defineComponent({
   name: "FilterComponent",

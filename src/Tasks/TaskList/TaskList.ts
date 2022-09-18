@@ -1,4 +1,4 @@
-import { isNonEmptyString } from "@/common/utils";
+import { isNonEmptyString } from "../../common/utils";
 import { v4 as uuidv4 } from "uuid";
 import type { Task } from "../Task/Task";
 
@@ -59,8 +59,8 @@ export class TaskList {
     this.visibleTasks = [...this.tasks.values()];
   }
 
-  public hasTask(id: string): void {
-    this.tasks.has(id);
+  public hasTask(id: string): boolean {
+    return this.tasks.has(id);
   }
 
   public hasAnyVisibleTask(): boolean {

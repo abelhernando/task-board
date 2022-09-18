@@ -28,7 +28,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Task, TaskList } from "@/Tasks";
+import { Task, TaskList } from "../Tasks";
 import { defineComponent, ref } from "vue";
 import TaskComponent from "./TaskComponent.vue";
 import { isNonEmptyString } from "../common/utils";
