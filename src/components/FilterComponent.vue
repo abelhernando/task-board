@@ -108,6 +108,10 @@ function getClassNames(): Object {
   border-top: 3px solid #41a9da;
   border-bottom: 3px solid #41a9da;
 
+  label {
+    min-width: 90px;
+  }
+
   input[type="text"] {
     width: 50%;
     border-radius: 18px;
@@ -117,11 +121,21 @@ function getClassNames(): Object {
   form {
     margin: 20px 0;
     display: flex;
-    width: 30%;
+    width: 50%;
     align-items: center;
 
     input[type="radio"] {
       height: 26px;
+    }
+  }
+
+  @media (max-width: 800px) {
+    input[type="radio"] {
+      width: initial;
+      margin: 0 10px;
+    }
+    input[type="text"] {
+      width: 100%;
     }
   }
 }

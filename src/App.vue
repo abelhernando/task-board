@@ -11,10 +11,18 @@ export default {
 </script>
 <style lang="scss">
 .main-app {
+  background-color: #e1f1f9;
+  min-height: 92vh;
+
   .app-title {
+    background-color: #ffff;
     text-align-last: center;
     font-size: 3em;
-    border-bottom: 2px solid;
+    margin-bottom: 0;
+
+    @media (max-width: 800px) {
+      font-size: 2em;
+    }
   }
 }
 </style>

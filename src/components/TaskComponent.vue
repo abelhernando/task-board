@@ -13,8 +13,11 @@
         :value="task.text"
         @keyup.enter="handlers.editTask"
       />
-      <!-- @blur="isEditing = false" -->
-      <button :class="cn.deleteBtn" @click="$emit('task:delete', task.id)">
+      <button
+        :class="cn.deleteBtn"
+        title="Delete task"
+        @click="$emit('task:delete', task.id)"
+      >
         <img src="../assets/delete.svg" alt="" />
       </button>
     </div>
@@ -99,6 +102,7 @@ function getClassNames(): Object {
     height: 50px;
     outline: none;
     cursor: pointer;
+    margin-left: 15px;
   }
 
   &__delete--button {
@@ -111,9 +115,12 @@ function getClassNames(): Object {
     width: 100%;
     align-self: center;
     cursor: pointer;
+    padding-left: 15px;
 
     input {
       height: 30px;
+      font-style: italic;
+      color: grey;
     }
   }
 

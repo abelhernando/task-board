@@ -6,8 +6,11 @@
         :value="list.title"
         @keyup.enter="handlers.editTitle"
       />
-      <!-- @blur="isEditing = false" -->
-      <button :class="cn.deleteBtn" @click="handlers.deleteList">
+      <button
+        :class="cn.deleteBtn"
+        title="Can not delete if there are Tasks inside"
+        @click="handlers.deleteList"
+      >
         <img src="../assets/delete.svg" alt="" />
       </button>
     </div>
@@ -132,7 +135,6 @@ function getClassNames(): Object {
 </script>
 <style lang="scss" scoped>
 .list-component {
-  width: 50%;
   min-height: 266px;
   margin: 20px;
 
@@ -147,6 +149,9 @@ function getClassNames(): Object {
 
       font-size: 2em;
       font-weight: bold;
+
+      font-style: italic;
+      color: grey;
     }
   }
 
@@ -207,6 +212,12 @@ function getClassNames(): Object {
       border: none;
       outline: none;
       cursor: pointer;
+    }
+  }
+
+  @media (max-width: 450px) {
+    input {
+      width: 80%;
     }
   }
 }

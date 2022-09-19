@@ -83,9 +83,10 @@ function getClassNames(): Object {
 
 <style lang="scss" scoped>
 .main-page {
-  background-color: #e1f1f9;
+  overflow: auto;
+
   &__list-control {
-    width: 30%;
+    width: 40%;
     margin: 1em;
 
     input {
@@ -98,8 +99,32 @@ function getClassNames(): Object {
     }
   }
   &__tasks-list {
+    display: grid;
+    gap: 1rem;
+    grid-auto-flow: dense;
+    grid-auto-rows: 20rem;
+    grid-template-columns: repeat(auto-fill, minmax(32rem, 1fr));
   }
-  &__create-list--button {
+
+  @media (max-width: 1000px) {
+    overflow-x: hidden;
+
+    &__list-control {
+      width: 100%;
+
+      input[type="text"] {
+        width: 80%;
+      }
+    }
+  }
+
+  @media (max-width: 450px) {
+    input[type="text"] {
+      width: 80%;
+    }
+    &__tasks-list {
+      grid-template-columns: repeat(auto-fill, minmax(22rem, 0.9fr)) !important;
+    }
   }
 }
 </style>
