@@ -69,7 +69,7 @@ export default defineComponent({
   head: {},
 });
 
-function getClassNames(): Object {
+function getClassNames() {
   const root = "main-page";
   return {
     root,
@@ -102,7 +102,6 @@ function getClassNames(): Object {
     display: grid;
     gap: 1rem;
     grid-auto-flow: dense;
-    grid-auto-rows: 20rem;
     grid-template-columns: repeat(auto-fill, minmax(32rem, 1fr));
   }
 

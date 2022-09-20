@@ -4,7 +4,7 @@
       type="checkbox"
       :checked="task.isDone"
       :value="task.isDone"
-      @change="task.setIsDone($event.target.checked)"
+      @change="handlers.changeTaskState"
     />
 
     <div v-if="isEditing" :class="cn.taskInfo">
@@ -69,6 +69,11 @@ export default defineComponent({
 
         isEditing.value = false;
       },
+      changeTaskState: function (event: Event): void {
+        const target = event.target as HTMLInputElement;
+
+        props.task.setIsDone(target.checked);
+      },
     };
 
     return {
@@ -81,7 +86,7 @@ export default defineComponent({
   head: {},
 });
 
-function getClassNames(): Object {
+function getClassNames() {
   const root = "task-component";
   return {
     root,
